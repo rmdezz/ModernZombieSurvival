@@ -7,32 +7,34 @@ using System.Collections.Generic;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] private float speed = 6f;
+    [SerializeField] private float speed = 6.0f;
     [SerializeField] private float sprintSpeedMultiplier = 1.5f;
-    [SerializeField] private float gravity = -9.81f * 2f;
+    [SerializeField] private float gravity = -9.81f * 2;
+    // --- NUEVO: Parámetros de Salto ---
+    [SerializeField] private float jumpHeight = 1.5f; // Altura aproximada del salto
 
     [Header("Look")]
     [SerializeField] private float lookSensitivityX = 0.2f;
 
-    [Header("Footsteps (Distance-Based)")]
+    [Header("Footsteps")]
     [SerializeField] private List<AudioClip> footstepSounds;
-    [SerializeField]
-    [Tooltip("Distancia recorrida para disparar un paso al caminar.")]
-    private float stepDistanceWalking = 2f;
-    [SerializeField]
-    [Tooltip("Distancia recorrida para disparar un paso al sprintar.")]
-    private float stepDistanceSprinting = 1.2f;
-    [SerializeField][Range(0.1f, 1f)] private float footstepVolume = 0.7f;
+    [SerializeField] private float timeBetweenFootstepsWalking = 0.5f;
+    [SerializeField] private float timeBetweenFootstepsSprinting = 0.3f;
+    [SerializeField] private float footstepVolume = 0.7f;
+    // --- NUEVO: Sonido de Salto (Opcional) ---
+    [SerializeField] private AudioClip jumpSound;
+    // [SerializeField] private AudioClip landSound; // Podríamos añadir sonido de aterrizaje después
 
     private CharacterController controller;
     private AudioSource audioSource;
-    private Vector3 verticalVelocity;
+    private Vector3 verticalVelocity; // Esto ya maneja la gravedad
     private Vector2 moveInput;
     private PlayerInputActions playerInputActions;
 
-    // para acumular la distancia desde el último paso
-    private float footstepDistanceAccumulator = 0f;
+    private float nextFootstepTime = 0f;
     private bool isSprinting = false;
+    // --- NUEVO: Variable para rastrear la solicitud de salto ---
+    private bool jumpRequested = false;
 
     void Awake()
     {
@@ -40,19 +42,22 @@ public class PlayerMovement : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         playerInputActions = new PlayerInputActions();
 
-        // Inputs
+        // Movimiento
         playerInputActions.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         playerInputActions.Player.Move.canceled += ctx => moveInput = Vector2.zero;
+
+        // Sprint
         playerInputActions.Player.Sprint.performed += ctx => isSprinting = true;
         playerInputActions.Player.Sprint.canceled += ctx => isSprinting = false;
+
+        // --- NUEVO: Suscripción al Input de Salto ---
+        playerInputActions.Player.Jump.performed += ctx => RequestJump();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        if (audioSource == null)
-            Debug.LogWarning("No AudioSource en PlayerMovement, los pasos no se oirán.", this);
-        if (footstepSounds == null || footstepSounds.Count == 0)
-            Debug.LogWarning("No hay AudioClips de paso asignados.", this);
+        if (audioSource == null && (footstepSounds.Count > 0 || jumpSound != null))
+            Debug.LogWarning("PlayerMovement tiene sonidos asignados pero no AudioSource.", this);
     }
 
     void OnEnable()
@@ -60,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
         playerInputActions.Player.Move.Enable();
         playerInputActions.Player.Look.Enable();
         playerInputActions.Player.Sprint.Enable();
+        playerInputActions.Player.Jump.Enable(); // ¡Activar la acción de salto!
     }
 
     void OnDisable()
@@ -67,67 +73,103 @@ public class PlayerMovement : MonoBehaviour
         playerInputActions.Player.Move.Disable();
         playerInputActions.Player.Look.Disable();
         playerInputActions.Player.Sprint.Disable();
+        playerInputActions.Player.Jump.Disable(); // ¡Desactivar la acción de salto!
+    }
+
+    // --- NUEVO: Método llamado por el evento de Input ---
+    private void RequestJump()
+    {
+        // Solo permitir solicitar un salto si estamos en el suelo
+        if (controller.isGrounded)
+        {
+            jumpRequested = true;
+            Debug.Log("Salto solicitado!");
+        }
     }
 
     void Update()
     {
+        // Leer input de Look aquí ya que HandleLook no se llama si el script está desactivado
+        Vector2 lookDelta = playerInputActions.Player.Look.ReadValue<Vector2>();
+        HandleLook(lookDelta); // Pasar el delta
+
         HandleMovement();
-        HandleGravity();
-        HandleLook();
-        HandleFootsteps();  // ahora por distancia
+        HandleGravityAndJump(); // Combinar gravedad y salto
+        HandleFootsteps();
     }
 
     private void HandleMovement()
     {
         float currentSpeed = isSprinting ? speed * sprintSpeedMultiplier : speed;
-        Vector3 dir = (transform.right * moveInput.x + transform.forward * moveInput.y).normalized;
-        controller.Move(dir * currentSpeed * Time.deltaTime);
+        Vector3 moveDirection = (transform.right * moveInput.x + transform.forward * moveInput.y).normalized;
+        Vector3 move = moveDirection * currentSpeed; // No multiplicar por Time.deltaTime aquí
+                                                     // CharacterController.Move lo hace internamente con el vector de velocidad
+
+        // Aplicar movimiento horizontal (sin Time.deltaTime porque lo aplicaremos globalmente con verticalVelocity)
+        // controller.Move(move * Time.deltaTime); // Haremos el Move una sola vez en HandleGravityAndJump
     }
 
-    private void HandleGravity()
+    // --- MODIFICADO: Renombrado y lógica de salto añadida ---
+    private void HandleGravityAndJump()
     {
-        if (controller.isGrounded && verticalVelocity.y < 0f)
-            verticalVelocity.y = -2f;
-        else
-            verticalVelocity.y += gravity * Time.deltaTime;
+        // Aplicar gravedad
+        if (controller.isGrounded && verticalVelocity.y < 0)
+        {
+            verticalVelocity.y = -2f; // Pequeña fuerza hacia abajo para mantenerlo pegado
+        }
 
-        controller.Move(verticalVelocity * Time.deltaTime);
+        // Aplicar Salto
+        if (jumpRequested)
+        {
+            // Fórmula para calcular la velocidad vertical necesaria para alcanzar jumpHeight:
+            // v = sqrt(h * -2 * g)
+            verticalVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity); // 'gravity' ya es negativa
+                                                                         // o usa Physics.gravity.y si quieres el global
+
+            // Reproducir sonido de salto (opcional)
+            if (jumpSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(jumpSound, footstepVolume); // Reusar footstepVolume o añadir jumpVolume
+            }
+            Debug.Log("Saltando con velocidad Y: " + verticalVelocity.y);
+            jumpRequested = false; // Consumir la solicitud de salto
+        }
+
+        // Aplicar gravedad constantemente
+        verticalVelocity.y += gravity * Time.deltaTime;
+
+        // --- Mover el personaje ---
+        // Combinar movimiento horizontal (calculado en HandleMovement) con el vertical
+        float currentSpeed = isSprinting ? speed * sprintSpeedMultiplier : speed;
+        Vector3 horizontalMove = (transform.right * moveInput.x + transform.forward * moveInput.y).normalized * currentSpeed;
+        Vector3 finalMove = (horizontalMove + verticalVelocity) * Time.deltaTime; // Aplicar Time.deltaTime aquí a la velocidad total
+
+        controller.Move(finalMove);
     }
 
-    private void HandleLook()
+
+    // --- MODIFICADO: Pasar lookDelta como parámetro ---
+    private void HandleLook(Vector2 lookDelta) // Aceptar el delta como parámetro
     {
-        Vector2 lookDelta = playerInputActions.Player.Look.ReadValue<Vector2>();
-        transform.Rotate(Vector3.up * lookDelta.x * lookSensitivityX);
+        float mouseX = lookDelta.x * lookSensitivityX; // Ya no multiplicamos por Time.deltaTime aquí
+        transform.Rotate(Vector3.up * mouseX);
     }
 
     private void HandleFootsteps()
     {
-        if (audioSource == null || footstepSounds == null || footstepSounds.Count == 0)
-            return;
+        if (audioSource == null || footstepSounds == null || footstepSounds.Count == 0) return;
 
-        // Solo cuando está en el suelo y hay input de movimiento
-        if (!controller.isGrounded || moveInput == Vector2.zero)
+        bool isMovingOnGround = controller.isGrounded && moveInput != Vector2.zero;
+
+        if (isMovingOnGround)
         {
-            // Opcional: resetear al saltar o dejar de moverse
-            footstepDistanceAccumulator = 0f;
-            return;
-        }
-
-        // Calcula la velocidad horizontal real del jugador
-        float currentSpeed = isSprinting ? speed * sprintSpeedMultiplier : speed;
-
-        // Acumula distancia recorrida este frame
-        footstepDistanceAccumulator += currentSpeed * Time.deltaTime;
-
-        // Define cuánto hay que recorrer para cada paso
-        float requiredDistance = isSprinting ? stepDistanceSprinting : stepDistanceWalking;
-
-        // Cuando supere el umbral, dispara el sonido y descuenta la distancia usada
-        if (footstepDistanceAccumulator >= requiredDistance)
-        {
-            int idx = Random.Range(0, footstepSounds.Count);
-            audioSource.PlayOneShot(footstepSounds[idx], footstepVolume);
-            footstepDistanceAccumulator -= requiredDistance;
+            if (Time.time >= nextFootstepTime)
+            {
+                int randomIndex = Random.Range(0, footstepSounds.Count);
+                audioSource.PlayOneShot(footstepSounds[randomIndex], footstepVolume);
+                float timeBetweenSteps = isSprinting ? timeBetweenFootstepsSprinting : timeBetweenFootstepsWalking;
+                nextFootstepTime = Time.time + timeBetweenSteps;
+            }
         }
     }
 }

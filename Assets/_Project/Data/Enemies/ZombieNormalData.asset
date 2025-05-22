@@ -1,21 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5941cb74113f7e6488de7f570fe763eb, type: 3}
-  m_Name: ZombieNormalData
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  moveSpeed: 3.5
-  angularSpeed: 120
-  attackDamage: 10
-  attackRange: 1.5
-  attackRate: 1
-  enemyMaterial: {fileID: 0}
+version https://git-lfs.github.com/spec/v1
+oid sha256:f61c5194dff1a347b77d00e5d2e11c79aff026667b1ba79d7f8870d49167ea55
+size 542
