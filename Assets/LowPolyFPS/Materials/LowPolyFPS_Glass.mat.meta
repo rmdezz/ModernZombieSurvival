@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ddb48e01d37312b48ae45c23af8215a4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 195910
+  packageName: Low Poly FPS Map Vol.1
+  packageVersion: 1.02
+  assetPath: Assets/LowPolyFPS/Materials/LowPolyFPS_Glass.mat
+  uploadId: 601327
