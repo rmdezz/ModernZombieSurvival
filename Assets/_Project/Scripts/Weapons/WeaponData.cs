@@ -31,6 +31,10 @@ public class WeaponData : ScriptableObject // ¡Hereda de ScriptableObject, no d
     [Tooltip("Tiempo en segundos que tarda la recarga.")]
     [Min(0.1f)] public float reloadTime = 1.5f;
 
+    [Header("View Model")]
+    [Tooltip("El prefab que contiene el modelo 3D y el Animator del arma (brazos+arma).")]
+    public GameObject viewModelPrefab;
+
     // --- Podríamos añadir más datos aquí en el futuro ---
 
     // [Header("Visuals & Audio")]

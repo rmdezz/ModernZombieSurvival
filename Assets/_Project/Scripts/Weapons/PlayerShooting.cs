@@ -8,6 +8,10 @@ public class PlayerShooting : MonoBehaviour
 {
     [Header("Setup")]
     [SerializeField] private Camera playerCamera;
+
+    [Tooltip("El objeto 'WeaponHolder' hijo de la cámara donde se instanciarán las armas.")]
+    [SerializeField] private Transform weaponHolder; // Arrastra tu WeaponHolder aquí
+
     // --- MODIFICADO: Lista de armas iniciales en lugar de una sola ---
     [Tooltip("Armas con las que el jugador empieza. La primera es la equipada por defecto.")]
     [SerializeField] private List<WeaponData> startingWeapons;
@@ -26,11 +30,25 @@ public class PlayerShooting : MonoBehaviour
     [Tooltip("VFX de impacto en carne por defecto si el arma no tiene uno específico.")]
     [SerializeField] private GameObject defaultImpactFleshVFXPrefab;
 
+    [Header("View Model & Animations")]
+    [Tooltip("El componente Animator del modelo visual del arma actual.")]
+    // Ya no necesitamos un [SerializeField] para el Animator, lo obtendremos del arma instanciada.
+    private Animator weaponAnimator;
+    // Referencia al GameObject del arma visual actual para poder destruirlo
+    private GameObject currentWeaponViewModel;
+
+
     // Estado interno del arma (específico del arma actualmente equipada)
     private int currentAmmoInMagazine;
     private int currentTotalAmmo;
     private bool isReloading = false;
     private float nextTimeToShoot = 0f;
+
+    // --- NUEVO: Hashes de parámetros del Animator para eficiencia ---
+    // Guardamos los nombres de los parámetros como números (hashes) para un acceso más rápido.
+    private static readonly int AnimShootParam = Animator.StringToHash("Shoot");
+    private static readonly int AnimReloadParam = Animator.StringToHash("Reload");
+    private static readonly int AnimInspectParam = Animator.StringToHash("Inspect");
 
     // --- NUEVO: Diccionario para guardar el estado de munición de cada arma ---
     // Esto es clave para que cada arma recuerde su munición.
@@ -77,6 +95,7 @@ public class PlayerShooting : MonoBehaviour
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Fire.performed += ctx => TryShoot();
         playerInputActions.Player.Reload.performed += ctx => StartReload();
+        playerInputActions.Player.Inspect.performed += ctx => InspectWeapon();
 
         // --- NUEVO: Suscripción a inputs para cambiar de arma ---
         playerInputActions.Player.SwitchWeapon1.performed += ctx => EquipWeaponByIndex(0); // Tecla 1
@@ -103,11 +122,37 @@ public class PlayerShooting : MonoBehaviour
     {
         playerInputActions.Player.Enable(); // Habilita todo el Action Map "Player"
         isReloading = false;
+        playerInputActions.Player.Inspect.Enable(); // Activar el input de inspeccionar
     }
 
     void OnDisable()
     {
         playerInputActions.Player.Disable(); // Deshabilita todo el Action Map "Player"
+        playerInputActions.Player.Inspect.Disable(); // Desactivar el input de inspeccionar
+    }
+
+    // --- NUEVO: Método para inspeccionar el arma ---
+    private void InspectWeapon()
+    {
+        // No permitir inspeccionar si estamos recargando o disparando
+        // (podríamos añadir más condiciones, como al correr)
+        if (isReloading || Time.time < nextTimeToShoot)
+        {
+            Debug.Log("No se puede inspeccionar ahora (recargando o acabas de disparar).");
+            return;
+        }
+
+        // Si el arma ya está en la pose de idle (no en medio de otra animación)
+        // Esto es un chequeo opcional pero bueno para evitar bugs visuales
+        if (weaponAnimator != null && weaponAnimator.GetCurrentAnimatorStateInfo(0).IsName("Armature_Idle"))
+        {
+            Debug.Log("Inspeccionando arma...");
+            weaponAnimator.SetTrigger(AnimInspectParam);
+        }
+        else
+        {
+            Debug.Log("No se puede inspeccionar porque no estamos en la animación de Idle.");
+        }
     }
 
     // --- NUEVA FUNCIÓN: Para equipar un arma por su índice en la lista 'startingWeapons' ---
@@ -139,8 +184,35 @@ public class PlayerShooting : MonoBehaviour
         if (currentWeaponData == newWeapon && currentWeaponIndex == weaponIndex && !isReloading) return;
 
 
+        // --- NUEVA LÓGICA DE CAMBIO VISUAL ---
+        // Destruir el modelo de arma anterior si existe
+        if (currentWeaponViewModel != null)
+        {
+            Destroy(currentWeaponViewModel);
+        }
+
         currentWeaponIndex = weaponIndex;
-        currentWeaponData = newWeapon;
+        currentWeaponData = startingWeapons[currentWeaponIndex];
+
+        // Instanciar el nuevo modelo de arma
+        if (currentWeaponData.viewModelPrefab != null)
+        {
+            currentWeaponViewModel = Instantiate(currentWeaponData.viewModelPrefab, weaponHolder);
+            // El 'weaponHolder' como segundo parámetro lo hace hijo automáticamente y mantiene su posición local en (0,0,0)
+
+            // Obtener el Animator del nuevo modelo instanciado
+            weaponAnimator = currentWeaponViewModel.GetComponent<Animator>();
+            if (weaponAnimator == null)
+            {
+                Debug.LogWarning($"El prefab de arma '{currentWeaponData.weaponName}' no tiene un Animator.", this);
+            }
+        }
+        else
+        {
+            Debug.LogError($"El WeaponData '{currentWeaponData.weaponName}' no tiene un viewModelPrefab asignado.", this);
+            weaponAnimator = null; // No hay animator si no hay modelo
+        }
+        // --- FIN LÓGICA DE CAMBIO VISUAL ---
 
         // Cargar el estado de munición del arma que se está equipando
         if (weaponStates.TryGetValue(currentWeaponData, out WeaponAmmoState state))
@@ -222,7 +294,17 @@ public class PlayerShooting : MonoBehaviour
         }
 
         nextTimeToShoot = Time.time + currentWeaponData.fireRate;
-        Shoot();
+
+        // Activar el trigger de la animación de disparo en el Animator del arma
+        if (weaponAnimator != null)
+        {
+            // Usamos SetTrigger para activar la animación una vez.
+            // Reseteará automáticamente el trigger después de que se consuma en una transición.
+            weaponAnimator.SetTrigger(AnimShootParam);
+        }
+
+        Shoot(); // Shoot() ahora se enfoca en la lógica del raycast/daño
+
         currentAmmoInMagazine--;
         weaponStates[currentWeaponData].ammoInMagazine = currentAmmoInMagazine; // Guardar estado
         UpdateAmmoUI();
@@ -281,6 +363,13 @@ public class PlayerShooting : MonoBehaviour
 
         Debug.Log($"Recargando {currentWeaponData.weaponName}...");
         isReloading = true;
+
+        // Activar el trigger de la animación de recarga
+        if (weaponAnimator != null)
+        {
+            weaponAnimator.SetTrigger(AnimReloadParam);
+        }
+        
         // Aquí podrías reproducir sonido de inicio de recarga o animación
         // if(currentWeaponData.reloadStartSound) audioSource.PlayOneShot(currentWeaponData.reloadStartSound);
 

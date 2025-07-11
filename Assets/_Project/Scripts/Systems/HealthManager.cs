@@ -64,10 +64,20 @@ public class HealthManager : MonoBehaviour
         currentHealth -= damageAmount;
         currentHealth = Mathf.Max(currentHealth, 0f);
 
+        // --- Feedbacks de Daño ---
+        // 1. Sonido
         if (damageSound != null && audioSource != null && audioSource.isActiveAndEnabled)
         {
             audioSource.PlayOneShot(damageSound, 1.0f);
         }
+
+        // 2. Animación (si hay un componente de IA para controlar)
+        // --- AÑADIDO: Llamar a la reacción de golpe en EnemyAI ---
+        if (!IsDead && enemyAIComponent != null) // Solo reaccionar si no vamos a morir
+        {
+            enemyAIComponent.TriggerHitAnimation();
+        }
+        // --- FIN AÑADIDO ---
 
         OnHealthChanged?.Invoke(currentHealth);
 

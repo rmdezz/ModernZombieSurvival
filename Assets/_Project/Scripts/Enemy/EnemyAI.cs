@@ -47,6 +47,7 @@ public class EnemyAI : MonoBehaviour
     private static readonly int AnimSpeedParam = Animator.StringToHash("Speed");
     private static readonly int AnimAttackParam = Animator.StringToHash("Attack");
     private static readonly int AnimDieParam = Animator.StringToHash("Die");
+    private static readonly int AnimHitParam = Animator.StringToHash("Hit");
 
     void Awake()
     {
@@ -121,6 +122,15 @@ public class EnemyAI : MonoBehaviour
             }
         }
         HandleIdleGrunts();
+    }
+
+    public void TriggerHitAnimation()
+    {
+        if (isDead || animator == null) return;
+
+        // Activar el trigger de la animación de reacción al golpe
+        animator.SetTrigger(AnimHitParam);
+        // Debug.Log($"{gameObject.name} reaccionó a un golpe.");
     }
 
     void Attack()

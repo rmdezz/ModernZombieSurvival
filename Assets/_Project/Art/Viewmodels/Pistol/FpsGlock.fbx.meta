@@ -1,0 +1,537 @@
+fileFormatVersion: 2
+guid: 3315ceb5bba59f8479a6f924166d4d21
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black
+    second: {fileID: 2100000, guid: 7a47bed22fbbf484695716d615d2bddb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BulletCasing
+    second: {fileID: 2100000, guid: c9259798b7b22b442920e43d3a6ac287, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BulletCasing2
+    second: {fileID: 2100000, guid: 73d8b8ea8e4655f4fa604e97c3370ebb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BulletTip
+    second: {fileID: 2100000, guid: 4c91b4584f59a864094b7339a050e27a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Frame
+    second: {fileID: 2100000, guid: b89ad1e460f8ce448b2dd24b57ad39b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glove
+    second: {fileID: 2100000, guid: 29797bf7ec938574fbbc75e77586bb43, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GrayShade2
+    second: {fileID: 2100000, guid: bba0e0f953e7c2049aaae5a1e7344573, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Magazine
+    second: {fileID: 2100000, guid: 3b04fbd20ddd58748990e60b8830eeac, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Shirt
+    second: {fileID: 2100000, guid: fdbb2a4c42b0e5b48abafda6a893c34b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Skin
+    second: {fileID: 2100000, guid: ea5d79115ecfb5a41b487c8949cf9f02, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Slide
+    second: {fileID: 2100000, guid: 174c58ba044695f4f958af0c49847848, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: White
+    second: {fileID: 2100000, guid: 27a1f406d34f36e4e8e0b3abe1271217, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Armature|Grip
+      takeName: Armature|Grip
+      internalID: 7421592585491300938
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|Idle
+      takeName: Armature|Idle
+      internalID: -8945691123924629249
+      firstFrame: 0
+      lastFrame: 50
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|Inspect
+      takeName: Armature|Inspect
+      internalID: 7508598004947436062
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|Reload
+      takeName: Armature|Reload
+      internalID: 7332139420686511986
+      firstFrame: 0
+      lastFrame: 49
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|Shoot
+      takeName: Armature|Shoot
+      internalID: -7453387558714718212
+      firstFrame: 0
+      lastFrame: 12
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: FpsGlock(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Armature
+      parentName: FpsGlock(Clone)
+      position: {x: -8.51445, y: 9.529303, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 336.50244, y: 336.50244, z: 336.50244}
+    - name: UpperArm.L
+      parentName: Armature
+      position: {x: 0.023996549, y: 0.003146786, z: -0.0017390224}
+      rotation: {x: -0.23472519, y: -0.5824627, z: 0.6856841, w: 0.36807418}
+      scale: {x: 1, y: 0.99999976, z: 0.99999994}
+    - name: LowerArm.L
+      parentName: UpperArm.L
+      position: {x: 3.9115547e-10, y: 0.011130075, z: -5.5879353e-11}
+      rotation: {x: 0.007982112, y: 0.14503053, z: 0.03643501, w: 0.9887239}
+      scale: {x: 1, y: 0.99999976, z: 1.0000001}
+    - name: Hand.L
+      parentName: LowerArm.L
+      position: {x: 7.959897e-10, y: 0.016224204, z: 5.122274e-11}
+      rotation: {x: 0.49636543, y: -0.23696022, z: 0.32977152, w: 0.7672822}
+      scale: {x: 1, y: 1.0000002, z: 1}
+    - name: DoubleFingersBeginning
+      parentName: Hand.L
+      position: {x: 6.7986544e-10, y: 0.006050984, z: 7.4505804e-11}
+      rotation: {x: -0.4107967, y: 0.2877116, z: 0.09315022, w: 0.8601111}
+      scale: {x: 0.99999994, y: 0.9999999, z: 1.0000001}
+    - name: DoubleFingers.L
+      parentName: DoubleFingersBeginning
+      position: {x: -4.842877e-10, y: 0.0016929624, z: 0}
+      rotation: {x: 0.19879603, y: 0.012419437, z: 0.22323899, w: 0.95419616}
+      scale: {x: 0.99999976, y: 0.99999994, z: 0.99999976}
+    - name: DoubleFingersTip.L
+      parentName: DoubleFingers.L
+      position: {x: 1.4901161e-10, y: 0.0014621061, z: 0}
+      rotation: {x: -0.064110234, y: -0.11377299, z: 0.5300186, w: 0.8378698}
+      scale: {x: 1, y: 1, z: 0.9999999}
+    - name: DoubleFingersTip.L_end
+      parentName: DoubleFingersTip.L
+      position: {x: -8.9406965e-10, y: 0.0014706985, z: -7.4505804e-11}
+      rotation: {x: -0.0000004007015, y: -0.000000018626448, z: -0.000000015366822, w: 1}
+      scale: {x: 1, y: 1, z: 1.0000001}
+    - name: IndexBeginning.L
+      parentName: Hand.L
+      position: {x: 6.7986544e-10, y: 0.006050984, z: 7.4505804e-11}
+      rotation: {x: 0.58552796, y: -0.01899589, z: 0.03580718, w: 0.8096382}
+      scale: {x: 0.9999999, y: 1.0000002, z: 1}
+    - name: Index.L
+      parentName: IndexBeginning.L
+      position: {x: -9.313225e-11, y: 0.0019092349, z: 2.2351741e-10}
+      rotation: {x: -0.64553547, y: 0.06924474, z: 0.07971562, w: 0.75639576}
+      scale: {x: 0.9999998, y: 0.99999994, z: 0.99999994}
+    - name: IndexTip.L
+      parentName: Index.L
+      position: {x: -2.561137e-10, y: 0.0016207865, z: -7.4505804e-11}
+      rotation: {x: -0.0014919997, y: -0.07178144, z: 0.42627814, w: 0.9017384}
+      scale: {x: 0.99999976, y: 0.9999995, z: 0.99999976}
+    - name: IndexTip.L_end
+      parentName: IndexTip.L
+      position: {x: -8.335337e-10, y: 0.0014706948, z: 1.4901161e-10}
+      rotation: {x: 0.000000404194, y: 0.000000051222745, z: 0.00000005634502, w: 1}
+      scale: {x: 1, y: 0.9999999, z: 1}
+    - name: ThumbBeginning.L
+      parentName: Hand.L
+      position: {x: 6.7986544e-10, y: 0.006050984, z: 7.4505804e-11}
+      rotation: {x: 0.9399811, y: -0.095233604, z: -0.15303285, w: 0.28973612}
+      scale: {x: 1, y: 1.0000001, z: 1.0000002}
+    - name: Thumb.L
+      parentName: ThumbBeginning.L
+      position: {x: -2.6077032e-10, y: 0.0045403466, z: 2.6077032e-10}
+      rotation: {x: 0.8710886, y: -0.13469, z: -0.19977903, w: -0.4279621}
+      scale: {x: 0.99999964, y: 0.9999999, z: 0.9999997}
+    - name: ThumbTip.L
+      parentName: Thumb.L
+      position: {x: 3.085006e-10, y: 0.0020098265, z: 1.4901161e-10}
+      rotation: {x: -0.08072711, y: 0.0045303153, z: -0.105705865, w: 0.9911049}
+      scale: {x: 1.0000001, y: 0.99999964, z: 1}
+    - name: ThumbTip.L_end
+      parentName: ThumbTip.L
+      position: {x: 7.4505804e-11, y: 0.0017256133, z: 1.11758706e-10}
+      rotation: {x: 0.00000003294554, y: 0.000000051280953, z: 0.000000013067621, w: 1}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: UpperArm.R.001
+      parentName: Armature
+      position: {x: 0.02660903, y: -0.011856545, z: -0.000021405105}
+      rotation: {x: 0.3679003, y: -0.64457303, z: 0.6092542, w: -0.27925676}
+      scale: {x: 0.9999998, y: 0.9999999, z: 0.9999998}
+    - name: LowerArm.R.001
+      parentName: UpperArm.R.001
+      position: {x: 6.193295e-10, y: 0.011130073, z: 2.9802322e-10}
+      rotation: {x: -0.07815177, y: -0.27027106, z: 0.013976858, w: 0.9595054}
+      scale: {x: 1, y: 1.0000004, z: 1.0000002}
+    - name: Hand.R.001
+      parentName: LowerArm.R.001
+      position: {x: -0.0000000014339457, y: 0.016224205, z: 6.0535965e-11}
+      rotation: {x: -0.45273775, y: -0.39201364, z: -0.57579386, w: 0.5566106}
+      scale: {x: 1, y: 0.99999994, z: 1.0000001}
+    - name: DoubleFingersBeginning.001
+      parentName: Hand.R.001
+      position: {x: 0.0000000017270213, y: 0.006050984, z: -1.8626451e-11}
+      rotation: {x: 0.4765273, y: 0.050279643, z: 0.27814808, w: 0.83248264}
+      scale: {x: 0.99999976, y: 0.99999994, z: 0.9999999}
+    - name: DoubleFingers.R.001
+      parentName: DoubleFingersBeginning.001
+      position: {x: 1.8626451e-11, y: 0.0016929596, z: 3.72529e-10}
+      rotation: {x: -0.30371186, y: 0.18434364, z: 0.62106997, w: 0.69860476}
+      scale: {x: 1.0000001, y: 1.0000001, z: 0.9999999}
+    - name: DoubleFingersTip.R.001
+      parentName: DoubleFingers.R.001
+      position: {x: 4.6566126e-11, y: 0.0014621038, z: -3.7252902e-11}
+      rotation: {x: 0.027600387, y: -0.00000024736042, z: -0.0000027270207, w: 0.99961907}
+      scale: {x: 0.99999994, y: 0.9999998, z: 1}
+    - name: DoubleFingersTip.R.001_end
+      parentName: DoubleFingersTip.R.001
+      position: {x: 1.1874363e-10, y: 0.0014706947, z: 1.0244548e-10}
+      rotation: {x: 0.000000404194, y: 0.000000009778887, z: 0.000000027939677, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IndexBeginning.R.001
+      parentName: Hand.R.001
+      position: {x: 0.0000000017261481, y: 0.006050985, z: 7.4505804e-11}
+      rotation: {x: -0.5548617, y: -0.19158635, z: 0.20082515, w: 0.7842783}
+      scale: {x: 0.9999995, y: 0.9999997, z: 0.9999998}
+    - name: Index.R.001
+      parentName: IndexBeginning.R.001
+      position: {x: 0.0000000027939677, y: 0.0019092328, z: 0}
+      rotation: {x: 0.58817184, y: 0.10740724, z: -0.09319768, w: 0.79613554}
+      scale: {x: 1.0000002, y: 0.99999994, z: 1.0000001}
+    - name: IndexTip.R.001
+      parentName: Index.R.001
+      position: {x: -5.1455573e-10, y: 0.0016207881, z: 5.867332e-10}
+      rotation: {x: -0.014212204, y: 0.00015633508, z: -0.01541143, w: 0.99978024}
+      scale: {x: 1, y: 1, z: 0.9999999}
+    - name: IndexTip.R.001_end
+      parentName: IndexTip.R.001
+      position: {x: -2.0954757e-10, y: 0.0014706946, z: 7.916242e-11}
+      rotation: {x: -2.6193453e-10, y: -2.3283059e-10, z: 0.0000000052023093, w: 1}
+      scale: {x: 1, y: 1, z: 1.0000001}
+    - name: ThumbBeginning.R.001
+      parentName: Hand.R.001
+      position: {x: 0.0000000017232378, y: 0.006050985, z: 2.9802322e-10}
+      rotation: {x: 0.8362324, y: 0.042402126, z: -0.4518279, w: -0.30784568}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1}
+    - name: Thumb.R.001
+      parentName: ThumbBeginning.R.001
+      position: {x: -4.4703483e-10, y: 0.0045403466, z: 0}
+      rotation: {x: 0.69181806, y: -0.21238548, z: -0.11862834, w: 0.6798585}
+      scale: {x: 0.99999976, y: 1, z: 0.9999996}
+    - name: ThumbTip.R.001
+      parentName: Thumb.R.001
+      position: {x: 2.9802322e-10, y: 0.0020098253, z: 2.6077032e-10}
+      rotation: {x: 0.396559, y: 0.4046049, z: -0.1446648, w: 0.8112385}
+      scale: {x: 0.99999976, y: 0.9999995, z: 0.9999998}
+    - name: ThumbTip.R.001_end
+      parentName: ThumbTip.R.001
+      position: {x: 2.9802322e-10, y: 0.0017256103, z: 5.9604643e-10}
+      rotation: {x: -0.0000002430752, y: 0.000000016996637, z: -0.0000000735745, w: 1}
+      scale: {x: 0.99999994, y: 0.99999994, z: 1}
+    - name: Root
+      parentName: Hand.R.001
+      position: {x: -0.0014590393, y: 0.004786951, z: -0.00120901}
+      rotation: {x: -0.32169354, y: 0.678011, z: -0.48461607, w: 0.44940153}
+      scale: {x: 1, y: 1.0000001, z: 0.9999999}
+    - name: Slide
+      parentName: Root
+      position: {x: 0.00026673957, y: 0.003539366, z: 0.000113224385}
+      rotation: {x: -0.40078562, y: 0.73131055, z: -0.43879092, w: -0.33469135}
+      scale: {x: 0.99999994, y: 1, z: 0.9999999}
+    - name: Slide_end
+      parentName: Slide
+      position: {x: 5.122274e-10, y: 0.0038932352, z: 3.632158e-10}
+      rotation: {x: -0.00000002825254, y: -0.00000005218043, z: -0.000000037805872, w: 1}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: Trigger
+      parentName: Root
+      position: {x: -0.0016002476, y: 0.003263026, z: -0.0006792709}
+      rotation: {x: 0.9032815, y: -0.2335487, z: -0.2963736, w: -0.20420627}
+      scale: {x: 0.99999964, y: 0.9999999, z: 0.9999998}
+    - name: Trigger_end
+      parentName: Trigger
+      position: {x: 7.45058e-10, y: 0.003893236, z: 1.862645e-10}
+      rotation: {x: -0.000000048545193, y: 0.0000001396984, z: -0.000000011175873, w: 1}
+      scale: {x: 0.99999994, y: 1, z: 0.99999994}
+    - name: Magazine
+      parentName: Root
+      position: {x: 0.000016910526, y: -0.002604508, z: 0.000007176781}
+      rotation: {x: -0.000000021187592, y: 0.00000006053597, z: 0.00000005599577, w: 1}
+      scale: {x: 1.0000001, y: 0.9999998, z: 1}
+    - name: Magazine_end
+      parentName: Magazine
+      position: {x: 2.9802322e-10, y: 0.0038932355, z: 8.9406965e-10}
+      rotation: {x: -0.000000014435498, y: 0.000000020489093, z: 0.00000004516914, w: 1}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: Barrel
+      parentName: Root
+      position: {x: -0.00380154, y: 0.0048971274, z: -0.0016136733}
+      rotation: {x: -0.40078565, y: 0.7313105, z: -0.43879095, w: -0.33469146}
+      scale: {x: 0.9999999, y: 0.99999976, z: 0.9999998}
+    - name: Barrel_end
+      parentName: Barrel
+      position: {x: -3.213063e-10, y: 0.0038932352, z: 1.862645e-10}
+      rotation: {x: -0.000000009618816, y: 0.000000029630883, z: 0.000000018626453, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: SlideCatch
+      parentName: Root
+      position: {x: 0.000640346, y: 0.003064402, z: -0.0006963854}
+      rotation: {x: 0.987653, y: -0.14211807, z: 0.037768498, w: -0.054014683}
+      scale: {x: 0.99999946, y: 1, z: 0.9999998}
+    - name: SlideCatch_end
+      parentName: SlideCatch
+      position: {x: 3.9581208e-10, y: 0.003893236, z: -1.2572854e-10}
+      rotation: {x: 0.0000000013969838, y: 0.00000008161078, z: -0.000000008614734, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: Glock19
+      parentName: FpsGlock(Clone)
+      position: {x: -2.6647327, y: 1.098871, z: 3.7621384}
+      rotation: {x: -0.14847936, y: -3.661714e-10, z: 8.4344476e-10, w: 0.9889155}
+      scale: {x: 3.4836888, y: 3.4836879, z: 3.483689}
+    - name: ArmModel
+      parentName: FpsGlock(Clone)
+      position: {x: -0.00000022411344, y: -0.000000047683653, z: 0.0000003589859}
+      rotation: {x: -0.000000081505775, y: -0.0000000049267634, z: 3.725368e-11, w: 1}
+      scale: {x: 0.9999996, y: 0.9999996, z: 0.9999996}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: Armature
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
