@@ -53,6 +53,11 @@ public class CurrencyManager : MonoBehaviour
         Debug.Log($"Moneda añadida: {amount}. Total actual: {currentPlayerCurrency}");
     }
 
+    public int GetCurrentCurrency()
+    {
+        return currentPlayerCurrency;
+    }
+
     public bool SpendCurrency(int amount)
     {
         if (amount <= 0)

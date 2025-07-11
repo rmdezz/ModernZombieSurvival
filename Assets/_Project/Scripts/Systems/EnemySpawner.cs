@@ -105,6 +105,8 @@ public class EnemySpawner : MonoBehaviour
         Debug.Log($"Encontrados {activeSpawnPoints.Count} puntos de spawn activos.");
     }
 
+    // ...existing code hasta donde encuentres el while loop...
+
     private IEnumerator WaveSpawnRoutine()
     {
         Debug.Log("Enemy Spawner (Wave System con Mix de Enemigos y Recompensas) iniciado.");
@@ -139,27 +141,101 @@ public class EnemySpawner : MonoBehaviour
                 for (int i = 0; i < entry.count; i++)
                 {
                     SpawnSingleEnemy(prefabToUse);
-                    bool isLastEnemyOverall = (enemiesAliveFromCurrentWave <= 1 && i == entry.count - 1); // Simplificación
+                    bool isLastEnemyOverall = (enemiesAliveFromCurrentWave <= 1 && i == entry.count - 1);
 
-                    if (!isLastEnemyOverall) // Solo esperar si no es el último absoluto de la tanda de la oleada
+                    if (!isLastEnemyOverall)
                     {
                         yield return new WaitForSeconds(currentWave.timeBetweenIndividualSpawns);
                     }
                 }
             }
 
+            // Esperar a que termine la oleada
             while (enemiesAliveFromCurrentWave > 0)
             {
                 yield return null;
             }
 
             Debug.Log($"-- Oleada {currentWaveIndex + 1} completada --");
+
+            // NUEVO: Teletransportar a la tienda al final de la oleada
+            ShopManager shopManager = ShopManager.Instance;
+            if (shopManager != null)
+            {
+                shopManager.TeleportToShop();
+                Debug.Log("Jugador teletransportado a la tienda!");
+            }
+            else
+            {
+                Debug.LogError("ShopManager no encontrado! No se puede teletransportar a la tienda.");
+            }
+
+            // MODIFICADO: Bucle más robusto para esperar salida de tienda
+            Debug.Log("Esperando a que el jugador salga de la tienda...");
+            bool playerStillInShop = true;
+            int timeoutCounter = 0;
+            const int maxTimeout = 1200; // 10 minutos timeout (0.5s * 1200 = 600s)
+
+            while (playerStillInShop)
+            {
+                // Buscar ShopManager en cada iteración por si acaso
+                ShopManager currentShopManager = ShopManager.Instance;
+
+                if (currentShopManager == null)
+                {
+                    Debug.LogError("ShopManager desapareció durante la espera!");
+                    break;
+                }
+
+                playerStillInShop = currentShopManager.IsInShop();
+
+                if (!playerStillInShop)
+                {
+                    Debug.Log("¡El jugador ha salido de la tienda! Continuando con la siguiente oleada...");
+                    break;
+                }
+
+                // Debugging cada 4 segundos (8 iteraciones * 0.5s)
+                if (timeoutCounter % 8 == 0)
+                {
+                    Debug.Log($"Aún esperando salida de tienda... IsInShop = {playerStillInShop}, Contador: {timeoutCounter}");
+                }
+
+                timeoutCounter++;
+                if (timeoutCounter >= maxTimeout)
+                {
+                    Debug.LogError("Timeout esperando salida de tienda. Continuando de todas formas...");
+                    break;
+                }
+
+                yield return new WaitForSeconds(0.5f);
+            }
+
+            // ...existing code hasta línea 210...
+
+            Debug.Log("Ya regresó al juego");
+
+            // NUEVO: Verificar que el spawner esté habilitado
+            if (!enabled)
+            {
+                Debug.LogError("EnemySpawner está deshabilitado después de salir de la tienda!");
+            }
+
+            // NUEVO: Verificar que la corrutina pueda continuar
+            Debug.Log($"Continuando a la siguiente oleada. currentWaveIndex será: {currentWaveIndex + 1}");
+
             currentWaveIndex++;
 
             if (currentWaveIndex < waves.Length)
             {
+                Debug.Log($"Preparando oleada {currentWaveIndex + 1} de {waves.Length}");
                 UpdateWaveUI(true);
+
+                Debug.Log($"Esperando {timeBetweenWaves} segundos antes de la siguiente oleada...");
                 yield return new WaitForSeconds(timeBetweenWaves);
+
+                Debug.Log($"¡Iniciando oleada {currentWaveIndex + 1}!");
+                // El bucle while debería continuar automáticamente aquí
             }
             else
             {

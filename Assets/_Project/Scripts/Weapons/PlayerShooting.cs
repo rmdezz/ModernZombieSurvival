@@ -308,4 +308,39 @@ public class PlayerShooting : MonoBehaviour
         if (currentWeaponData == null || ammoTextElement == null) return;
         ammoTextElement.text = $"{currentWeaponData.weaponName.ToUpper()}: {currentAmmoInMagazine} / {currentTotalAmmo}";
     }
+
+    public bool RefillAllWeaponsAmmo()
+    {
+        bool ammoWasAdded = false;
+
+        foreach (var weaponKvp in weaponStates)
+        {
+            WeaponData weapon = weaponKvp.Key;
+            WeaponAmmoState state = weaponKvp.Value;
+
+            // Rellenar cargador al máximo
+            if (state.ammoInMagazine < weapon.magazineSize)
+            {
+                state.ammoInMagazine = weapon.magazineSize;
+                ammoWasAdded = true;
+            }
+
+            // Rellenar reserva al máximo
+            if (state.totalAmmoReserve < weapon.maxTotalAmmo)
+            {
+                state.totalAmmoReserve = weapon.maxTotalAmmo;
+                ammoWasAdded = true;
+            }
+        }
+
+        // Actualizar variables del arma actual
+        if (currentWeaponData != null && weaponStates.ContainsKey(currentWeaponData))
+        {
+            currentAmmoInMagazine = weaponStates[currentWeaponData].ammoInMagazine;
+            currentTotalAmmo = weaponStates[currentWeaponData].totalAmmoReserve;
+            UpdateAmmoUI();
+        }
+
+        return ammoWasAdded;
+    }
 }

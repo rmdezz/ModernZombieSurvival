@@ -85,6 +85,13 @@ public class HealthManager : MonoBehaviour
         OnHealthChanged?.Invoke(currentHealth);
     }
 
+    public void FullHeal()
+    {
+        if (IsDead) return;
+        currentHealth = maxHealth;
+        OnHealthChanged?.Invoke(currentHealth);
+    }
+
     private void Die()
     {
         OnDied?.Invoke(this); // Notificar a los suscriptores (como EnemySpawner, CurrencyManager)
