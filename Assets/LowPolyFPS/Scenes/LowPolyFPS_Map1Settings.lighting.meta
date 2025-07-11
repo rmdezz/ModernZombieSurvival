@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8fc6e893cb5a7d945ada76ffd1b45734
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4890085278179872738
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 195910
+  packageName: Low Poly FPS Map Vol.1
+  packageVersion: 1.02
+  assetPath: Assets/LowPolyFPS/Scenes/LowPolyFPS_Map1Settings.lighting
+  uploadId: 601327
