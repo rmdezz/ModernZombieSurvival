@@ -31,6 +31,7 @@ public class PlayerShooting : MonoBehaviour
     private int currentTotalAmmo;
     private bool isReloading = false;
     private float nextTimeToShoot = 0f;
+    private bool ignoreInputs = false;
 
     // --- NUEVO: Diccionario para guardar el estado de munición de cada arma ---
     // Esto es clave para que cada arma recuerde su munición.
@@ -75,7 +76,7 @@ public class PlayerShooting : MonoBehaviour
         if (ammoTextElement == null) Debug.LogWarning("Ammo Text Element no asignado. La UI no se actualizará.", this);
 
         playerInputActions = new PlayerInputActions();
-        playerInputActions.Player.Fire.performed += ctx => TryShoot();
+        //playerInputActions.Player.Fire.performed += ctx => TryShoot();
         playerInputActions.Player.Reload.performed += ctx => StartReload();
 
         // --- NUEVO: Suscripción a inputs para cambiar de arma ---
@@ -281,6 +282,7 @@ public class PlayerShooting : MonoBehaviour
 
         Debug.Log($"Recargando {currentWeaponData.weaponName}...");
         isReloading = true;
+        ammoTextElement.text = "RECARGANDO...";
         // Aquí podrías reproducir sonido de inicio de recarga o animación
         // if(currentWeaponData.reloadStartSound) audioSource.PlayOneShot(currentWeaponData.reloadStartSound);
 
@@ -298,6 +300,7 @@ public class PlayerShooting : MonoBehaviour
 
         isReloading = false;
         UpdateAmmoUI();
+        ammoTextElement.text = $"{currentWeaponData.weaponName.ToUpper()}: {currentAmmoInMagazine} / {currentTotalAmmo}";
         Debug.Log($"¡Recarga completa para {currentWeaponData.weaponName}!");
         // Aquí podrías reproducir sonido de fin de recarga
         // if(currentWeaponData.reloadEndSound) audioSource.PlayOneShot(currentWeaponData.reloadEndSound);
@@ -307,5 +310,22 @@ public class PlayerShooting : MonoBehaviour
     {
         if (currentWeaponData == null || ammoTextElement == null) return;
         ammoTextElement.text = $"{currentWeaponData.weaponName.ToUpper()}: {currentAmmoInMagazine} / {currentTotalAmmo}";
+    }
+
+    void Update()
+    {
+        if (ignoreInputs) return;
+
+        if (playerInputActions.Player.Fire.triggered)
+        {
+            TryShoot();
+        }
+
+        // Opcional: scroll para cambiar de arma
+        float scroll = Mouse.current.scroll.ReadValue().y;
+        if (Mathf.Abs(scroll) > 0.01f)
+        {
+            SwitchWeaponByScroll(scroll);
+        }
     }
 }

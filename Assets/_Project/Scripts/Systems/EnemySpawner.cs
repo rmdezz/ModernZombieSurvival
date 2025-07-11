@@ -5,6 +5,11 @@ using TMPro;
 
 public class EnemySpawner : MonoBehaviour
 {
+    // Añade una referencia al script que controla el ciclo de día y noche.
+    [Header("Integrations")]
+    [Tooltip("Controlador del ciclo día/noche para cambiar la iluminación con cada oleada.")]
+    [SerializeField] private DayNightController dayNightController;
+
     [System.Serializable]
     public class EnemySpawnEntry
     {
@@ -82,12 +87,25 @@ public class EnemySpawner : MonoBehaviour
             Debug.LogError("ERROR: No hay puntos de spawn activos encontrados!", this);
             enabled = false;
         }
+
+        // Avisa al controlador de día/noche si no está asignado.
+        if (dayNightController == null)
+        {
+            Debug.LogWarning("DayNightController no está asignado. La iluminación no cambiará.", this);
+        }
     }
 
     void Start()
     {
         if (enabled)
+        {
+            // Informa al DayNightController cuántas oleadas hay en total al inicio.
+            if (dayNightController != null)
+            {
+                dayNightController.SetTotalWaves(waves.Length);
+            }
             waveSpawnCoroutine = StartCoroutine(WaveSpawnRoutine());
+        }
     }
 
     void OnDisable()
@@ -154,6 +172,13 @@ public class EnemySpawner : MonoBehaviour
             }
 
             Debug.Log($"-- Oleada {currentWaveIndex + 1} completada --");
+
+            // Llama al DayNightController para que avance el tiempo al completar una oleada.
+            if (dayNightController != null)
+            {
+                dayNightController.AdvanceTimeOfDay();
+            }
+            
             currentWaveIndex++;
 
             if (currentWaveIndex < waves.Length)
